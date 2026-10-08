@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKSANCI - Ikatan Keluarga Santri Cigugur</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emeraldCustom: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22',
+                        },
+                        goldCustom: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .hero-pattern {
+            background-color: #047857;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fef08a 0%, #d97706 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(4, 120, 87, 0.2);
+        }
+
+        .active-tab-btn {
+            background-color: #047857 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(4, 120, 87, 0.3);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #047857;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- NAVBAR TOP -->
+    <header class="bg-emeraldCustom-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- BRAND / LOGO -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('beranda')">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center border-2 border-goldCustom-500 shadow-md">
+                        <i class="fa-solid fa-mosque text-emeraldCustom-700 text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-extrabold tracking-wider text-white">IKSANCI</span>
+                        <p class="text-xs text-emeraldCustom-200 tracking-wide font-medium">Ikatan Keluarga Santri Cigugur</p>
+                    </div>
+                </div>
+
+                <!-- DESKTOP NAVIGATION -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2">
+                    <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:bg-emeraldCustom-800">Beranda</button>
+                    <button onclick="switchTab('profil')" id="nav-profil" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:bg-emeraldCustom-800">Profil</button>
+                    <button onclick="switchTab('prokerja')" id="nav-prokerja" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:bg-emeraldCustom-800">Program Kerja</button>
+                    <button onclick="switchTab('pengurus')" id="nav-pengurus" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:bg-emeraldCustom-800">Pengurus</button>
+                    <button onclick="switchTab('berita')" id="nav-berita" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:bg-emeraldCustom-800">Berita</button>
+                    <button onclick="switchTab('galeri')" id="nav-galeri" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition hover:bg-emeraldCustom-800">Galeri</button>
+                    <button onclick="switchTab('pendaftaran')" id="nav-pendaftaran" class="px-4 py-2 rounded-lg text-sm font-semibold bg-goldCustom-500 text-emeraldCustom-950 hover:bg-goldCustom-400 transition shadow-sm ml-2">Pendaftaran</button>
+                </nav>
+
+                <!-- MOBILE MENU BUTTON -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-toggle" class="p-2 rounded-md text-emeraldCustom-200 hover:text-white hover:bg-emeraldCustom-800 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOBILE MENU DROPDOWN -->
+        <div id="mobile-menu" class="hidden md:hidden bg-emeraldCustom-800 px-4 pt-2 pb-4 space-y-2 border-t border-emeraldCustom-700">
+            <button onclick="switchTab('beranda')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-emeraldCustom-700">Beranda</button>
+            <button onclick="switchTab('profil')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-emeraldCustom-700">Profil</button>
+            <button onclick="switchTab('prokerja')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-emeraldCustom-700">Program Kerja</button>
+            <button onclick="switchTab('pengurus')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-emeraldCustom-700">Pengurus</button>
+            <button onclick="switchTab('berita')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-emeraldCustom-700">Berita</button>
+            <button onclick="switchTab('galeri')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-emeraldCustom-700">Galeri</button>
+            <button onclick="switchTab('pendaftaran')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium bg-goldCustom-500 text-emeraldCustom-950 font-bold mt-2">Pendaftaran Santri</button>
+        </div>
+    </header>
+
+    <!-- CONTENT WRAPPER -->
+    <main class="flex-grow">
+        
+        <!-- ================= BERANDA SECTION ================= -->
+        <section id="tab-beranda" class="tab-content">
+            <!-- HERO HERO -->
+            <div class="hero-pattern text-white py-20 lg:py-28 relative overflow-hidden border-b-4 border-goldCustom-500">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <div class="inline-block px-4 py-1.5 bg-emeraldCustom-800 bg-opacity-80 rounded-full border border-emeraldCustom-600 mb-6 text-sm font-semibold text-goldCustom-400">
+                        <i class="fa-solid fa-star text-xs mr-1"></i> Wadah Silaturahmi & Perjuangan Santri Cigugur
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+                        Mengabdi Bersama,<br><span class="gold-gradient-text">Menjaga Ukhuwah Islamiyah</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-emeraldCustom-100 max-w-3xl mx-auto mb-10 leading-relaxed font-light">
+                        Selamat datang di portal resmi Ikatan Keluarga Santri Cigugur (IKSANCI). Bersama membina keilmuan, persaudaraan, dan kebermanfaatan bagi santri serta masyarakat.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="switchTab('profil')" class="px-8 py-3.5 bg-white text-emeraldCustom-800 font-bold rounded-xl hover:bg-gray-100 transition shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-compass"></i> Jelajahi Profil
+                        </button>
+                        <button onclick="switchTab('pendaftaran')" class="px-8 py-3.5 bg-goldCustom-500 text-emeraldCustom-950 font-bold rounded-xl hover:bg-goldCustom-400 transition shadow-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-user-plus"></i> Gabung IKSANCI
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STATS SECTION -->
+            <div class="bg-white py-12 shadow-sm border-b">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                    <div class="p-4 rounded-xl bg-emeraldCustom-50 border border-emeraldCustom-100">
+                        <div class="text-3xl lg:text-4xl font-extrabold text-emeraldCustom-700">9+</div>
+                        <div class="text-sm font-medium text-gray-600 mt-1">Koordinator Wilayah</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-emeraldCustom-50 border border-emeraldCustom-100">
+                        <div class="text-3xl lg:text-4xl font-extrabold text-emeraldCustom-700">500+</div>
+                        <div class="text-sm font-medium text-gray-600 mt-1">Anggota Santri</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-emeraldCustom-50 border border-emeraldCustom-100">
+                        <div class="text-3xl lg:text-4xl font-extrabold text-emeraldCustom-700">12+</div>
+                        <div class="text-sm font-medium text-gray-600 mt-1">Program Rutin</div>
+                    </div>
+                    <div class="p-4 rounded-xl bg-emeraldCustom-50 border border-emeraldCustom-100">
+                        <div class="text-3xl lg:text-4xl font-extrabold text-emeraldCustom-700">100%</div>
+                        <div class="text-sm font-medium text-gray-600 mt-1">Pengabdian Murni</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAMBUTAN KETUA -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="bg-white rounded-2xl p-8 md:p-12 shadow-lg border border-emeraldCustom-100 flex flex-col md:flex-row items-center gap-8">
+                    <div class="w-44 h-44 rounded-full border-4 border-emeraldCustom-600 overflow-hidden shadow-md shrink-0 bg-emeraldCustom-100 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Ketua Umum" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/200?text=Ketua+Umum'">
+                    </div>
+                    <div>
+                        <div class="inline-block px-3 py-1 bg-emeraldCustom-100 text-emeraldCustom-800 rounded-md text-xs font-bold mb-2">SAMBUTAN KETUA UMUM</div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Ustadz Syarif Hidayat, S.H.</h2>
+                        <p class="text-gray-600 italic leading-relaxed mb-4">
+                            "Assalamu'alaikum Warahmatullahi Wabarakatuh. Puji syukur kita panjatkan ke hadirat Allah SWT. IKSANCI hadir sebagai wadah silaturahmi, penguat tali persaudaraan, dan sarana kolaborasi bagi seluruh santri Cigugur. Mari kita bersama-sama mempererat ukhuwah dan menebar kebaikan untuk sesama."
+                        </p>
+                        <button onclick="switchTab('pengurus')" class="text-emeraldCustom-700 font-bold hover:underline flex items-center gap-1">
+                            Lihat Struktur Pengurus Lengkap <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PROFIL SECTION ================= -->
+        <section id="tab-profil" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-emeraldCustom-900">Profil Organisasi</h2>
+                    <p class="text-gray-600 mt-2">Mengenal lebih dekat Ikatan Keluarga Santri Cigugur (IKSANCI)</p>
+                    <div class="w-20 h-1 bg-goldCustom-500 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 leading-relaxed text-gray-700 space-y-4">
+                    <h3 class="text-2xl font-bold text-emeraldCustom-800 border-b pb-2">Sejarah Singkat</h3>
+                    <p>
+                        Ikatan Keluarga Santri Cigugur (IKSANCI) didirikan sebagai respon atas kebutuhan wadah pemersatu seluruh santri yang berasal maupun bertugas di wilayah Cigugur dan sekitarnya. Sejak awal berdirinya, IKSANCI berkomitmen untuk menjaga tradisi keilmuan pesantren, mempererat ukhuwah islamiyah, dan memberikan kontribusi nyata bagi pengembangan masyarakat setempat.
+                    </p>
+                    <p>
+                        Melalui jaringan kerja sama di berbagai karesidenan dan wilayah (Krajan 1, 2, 3, Kr Mulek, Kr Tengah, Kr Tempel, Kr Jaya, Curug Bogis, hingga Bengkok), IKSANCI terus aktif memfasilitasi kegiatan keagamaan, sosial, serta kebudayaan berbasis nilai-nilai keislaman.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- VISI -->
+                    <div class="bg-emeraldCustom-900 text-white p-8 rounded-2xl shadow-md border-t-4 border-goldCustom-500">
+                        <div class="w-12 h-12 bg-emeraldCustom-800 rounded-xl flex items-center justify-center mb-4 text-goldCustom-400 text-2xl">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Visi</h3>
+                        <p class="text-emeraldCustom-100 leading-relaxed font-light">
+                            "Menjadi organisasi keuamatan dan kasantrian yang solid, berakhlakul karimah, unggul dalam intelektualitas, serta berdedikasi tinggi demi kemajuan agama, bangsa, dan masyarakat Cigugur."
+                        </p>
+                    </div>
+
+                    <!-- MISI -->
+                    <div class="bg-white p-8 rounded-2xl shadow-md border border-gray-100 border-t-4 border-emeraldCustom-600">
+                        <div class="w-12 h-12 bg-emeraldCustom-100 rounded-xl flex items-center justify-center mb-4 text-emeraldCustom-700 text-2xl">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-emeraldCustom-900 mb-4">Misi</h3>
+                        <ul class="space-y-3 text-gray-700 text-sm">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-emeraldCustom-600 mt-1"></i>
+                                Mempererat tali silaturahmi antar santri Cigugur lintas generasi dan wilayah.
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-emeraldCustom-600 mt-1"></i>
+                                Memfasilitasi pengembangan potensi akademik dan non-akademik anggota.
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-emeraldCustom-600 mt-1"></i>
+                                Menggelar kegiatan bakti sosial dan pengabdian masyarakat secara berkala.
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-emeraldCustom-600 mt-1"></i>
+                                Menjaga serta melestarikan ajaran dan tradisi positif keislaman pesantren.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PROGRAM KERJA SECTION ================= -->
+        <section id="tab-prokerja" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-emeraldCustom-900">Program Kerja Utama</h2>
+                    <p class="text-gray-600 mt-2">Rangkaian agenda dan dedikasi IKSANCI untuk kebermanfaatan umat</p>
+                    <div class="w-20 h-1 bg-goldCustom-500 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- PROKER 1 -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 card-hover">
+                        <div class="w-14 h-14 bg-emeraldCustom-100 rounded-2xl flex items-center justify-center text-emeraldCustom-700 text-2xl mb-6">
+                            <i class="fa-solid fa-book-open-reader"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Kajian & Majelis Rutin</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                            Pengajian rutin bulanan, pembacaan kitab, dan majelis dhikr yang diselenggarakan bergantian di setiap koordinator wilayah.
+                        </p>
+                        <span class="inline-block px-3 py-1 bg-emeraldCustom-50 text-emeraldCustom-700 text-xs font-semibold rounded-full">Bidang Keagamaan</span>
+                    </div>
+
+                    <!-- PROKER 2 -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 card-hover">
+                        <div class="w-14 h-14 bg-goldCustom-400 bg-opacity-20 rounded-2xl flex items-center justify-center text-goldCustom-600 text-2xl mb-6">
+                            <i class="fa-solid fa-hand-holding-heart"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">IKSANCI Peduli Sosial</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                            Aksi bakti sosial, penyaluran santunan anak yatim, bantuan bencana alam, serta kerja bakti di lingkungan masyarakat.
+                        </p>
+                        <span class="inline-block px-3 py-1 bg-goldCustom-50 text-goldCustom-600 text-xs font-semibold rounded-full">Bidang Sosial</span>
+                    </div>
+
+                    <!-- PROKER 3 -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 card-hover">
+                        <div class="w-14 h-14 bg-emeraldCustom-100 rounded-2xl flex items-center justify-center text-emeraldCustom-700 text-2xl mb-6">
+                            <i class="fa-solid fa-people-roof"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Silaturahmi Wilayah</h3>
+                        <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                            Kunjungan konsolidasi antar 9 Koordinator Wilayah (Krajan 1-3, Mulek, Tengah, Tempel, Jaya, Curug Bogis, & Bengkok).
+                        </p>
+                        <span class="inline-block px-3 py-1 bg-emeraldCustom-50 text-emeraldCustom-700 text-xs font-semibold rounded-full">Bidang Humas</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PENGURUS SECTION ================= -->
+        <section id="tab-pengurus" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-emeraldCustom-900">Struktur Pengurus</h2>
+                    <p class="text-gray-600 mt-2">Susunan Kepengurusan Ikatan Keluarga Santri Cigugur (IKSANCI)</p>
+                    <div class="w-20 h-1 bg-goldCustom-500 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <!-- FILTER CATEGORIES -->
+                <div class="flex flex-wrap justify-center gap-2 mb-8">
+                    <button onclick="filterPengurus('all')" id="filter-all" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold border border-emeraldCustom-700 bg-emeraldCustom-700 text-white transition shadow-sm">
+                        Semua Pengurus
+                    </button>
+                    <button onclick="filterPengurus('harian')" id="filter-harian" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold border border-gray-300 bg-white text-gray-700 hover:border-emeraldCustom-700 transition">
+                        Pengurus Harian
+                    </button>
+                    <button onclick="filterPengurus('media')" id="filter-media" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold border border-gray-300 bg-white text-gray-700 hover:border-emeraldCustom-700 transition">
+                        Media Officer
+                    </button>
+                    <button onclick="filterPengurus('korwil')" id="filter-korwil" class="filter-btn px-5 py-2 rounded-full text-sm font-semibold border border-gray-300 bg-white text-gray-700 hover:border-emeraldCustom-700 transition">
+                        Koordinator Wilayah
+                    </button>
+                </div>
+
+                <!-- LIST PENGURUS CONTAINER -->
+                <div class="space-y-12">
+                    
+                    <!-- PENGURUS HARIAN GROUP -->
+                    <div class="pengurus-group" data-category="harian">
+                        <h3 class="text-xl font-bold text-emeraldCustom-800 border-l-4 border-goldCustom-500 pl-3 mb-6">
+                            Penasehat & Pengurus Harian
+                        </h3>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            
+                            <!-- Penasehat 1 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-goldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&auto=format&fit=crop&q=80" alt="Penasehat 1" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=K.H.+Ahmad'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-goldCustom-100 text-goldCustom-800 rounded">Penasehat</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">K.H. Ahmad Dahlan</h4>
+                                    <p class="text-xs text-gray-500">Dewan Penasehat IKSANCI</p>
+                                </div>
+                            </div>
+
+                            <!-- Penasehat 2 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-goldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80" alt="Penasehat 2" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Ustd.+Mansur'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-goldCustom-100 text-goldCustom-800 rounded">Penasehat</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Ustadz Mansur, M.Pd.</h4>
+                                    <p class="text-xs text-gray-500">Dewan Penasehat IKSANCI</p>
+                                </div>
+                            </div>
+
+                            <!-- Ketua Umum -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-emeraldCustom-200 flex items-center gap-4 card-hover bg-emeraldCustom-50/30">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-600 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Ketua Umum" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Ketua+Umum'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-100 text-emeraldCustom-800 rounded">Ketua Umum</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Ustadz Syarif Hidayat, S.H.</h4>
+                                    <p class="text-xs text-gray-500">Ketua Umum IKSANCI</p>
+                                </div>
+                            </div>
+
+                            <!-- Wakil Ketua Umum -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-emeraldCustom-200 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-600 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80" alt="Wakil Ketua Umum" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Wakil+Ketua'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-100 text-emeraldCustom-800 rounded">Wakil Ketua Umum</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Ustadz Ridwan Malik, S.Pd.I</h4>
+                                    <p class="text-xs text-gray-500">Wakil Ketua Umum IKSANCI</p>
+                                </div>
+                            </div>
+
+                            <!-- Sekretaris 1 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-600 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&auto=format&fit=crop&q=80" alt="Sekretaris 1" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Sekretaris+1'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-gray-100 text-gray-700 rounded">Sekretaris 1</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Muhammad Rizky</h4>
+                                    <p class="text-xs text-gray-500">Sekretaris Umum 1</p>
+                                </div>
+                            </div>
+
+                            <!-- Sekretaris 2 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-600 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&auto=format&fit=crop&q=80" alt="Sekretaris 2" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Sekretaris+2'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-gray-100 text-gray-700 rounded">Sekretaris 2</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Ahmad Fauzan</h4>
+                                    <p class="text-xs text-gray-500">Sekretaris Umum 2</p>
+                                </div>
+                            </div>
+
+                            <!-- Bendahara 1 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-600 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&auto=format&fit=crop&q=80" alt="Bendahara 1" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Bendahara+1'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-gray-100 text-gray-700 rounded">Bendahara 1</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Hj. Nur Aini</h4>
+                                    <p class="text-xs text-gray-500">Bendahara Umum 1</p>
+                                </div>
+                            </div>
+
+                            <!-- Bendahara 2 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-600 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&auto=format&fit=crop&q=80" alt="Bendahara 2" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Bendahara+2'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-gray-100 text-gray-700 rounded">Bendahara 2</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Siti Rahmah</h4>
+                                    <p class="text-xs text-gray-500">Bendahara Umum 2</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- MEDIA OFFICER GROUP -->
+                    <div class="pengurus-group" data-category="media">
+                        <h3 class="text-xl font-bold text-emeraldCustom-800 border-l-4 border-sky-500 pl-3 mb-6">
+                            Media & Dokumentasi
+                        </h3>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            
+                            <!-- Media Officer 1 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-sky-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-sky-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80" alt="Media Officer 1" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Media+1'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-sky-100 text-sky-800 rounded">Media Officer 1</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Fikri Alamsyah</h4>
+                                    <p class="text-xs text-gray-500">Tim Publikasi & Konten</p>
+                                </div>
+                            </div>
+
+                            <!-- Media Officer 2 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-sky-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-sky-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=200&auto=format&fit=crop&q=80" alt="Media Officer 2" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Media+2'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-sky-100 text-sky-800 rounded">Media Officer 2</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Naufal Hilmi</h4>
+                                    <p class="text-xs text-gray-500">Tim Dokumentasi & Desain</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- KOORDINATOR WILAYAH GROUP -->
+                    <div class="pengurus-group" data-category="korwil">
+                        <h3 class="text-xl font-bold text-emeraldCustom-800 border-l-4 border-emeraldCustom-600 pl-3 mb-6">
+                            Koordinator Wilayah (Korwil)
+                        </h3>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            
+                            <!-- Korwil Krajan 1 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?w=200&auto=format&fit=crop&q=80" alt="Korwil Krajan 1" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Krajan+1'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-50 text-emeraldCustom-700 rounded">Korwil Krajan 1</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Ustadz Hendra</h4>
+                                    <p class="text-xs text-gray-500">Koordinator Krajan 1</p>
+                                </div>
+                            </div>
+
+                            <!-- Korwil Krajan 2 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=200&auto=format&fit=crop&q=80" alt="Korwil Krajan 2" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Krajan+2'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-50 text-emeraldCustom-700 rounded">Korwil Krajan 2</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Kang Lukman</h4>
+                                    <p class="text-xs text-gray-500">Koordinator Krajan 2</p>
+                                </div>
+                            </div>
+
+                            <!-- Korwil Krajan 3 -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80" alt="Korwil Krajan 3" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Krajan+3'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-50 text-emeraldCustom-700 rounded">Korwil Krajan 3</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Kang Zaki</h4>
+                                    <p class="text-xs text-gray-500">Koordinator Krajan 3</p>
+                                </div>
+                            </div>
+
+                            <!-- Korwil Kr Mulek -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80" alt="Korwil Kr Mulek" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Kr+Mulek'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-50 text-emeraldCustom-700 rounded">Korwil Kr Mulek</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Kang Abdul</h4>
+                                    <p class="text-xs text-gray-500">Koordinator Kr Mulek</p>
+                                </div>
+                            </div>
+
+                            <!-- Korwil Kr Tengah -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&auto=format&fit=crop&q=80" alt="Korwil Kr Tengah" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Kr+Tengah'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-50 text-emeraldCustom-700 rounded">Korwil Kr Tengah</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Kang Arif</h4>
+                                    <p class="text-xs text-gray-500">Koordinator Kr Tengah</p>
+                                </div>
+                            </div>
+
+                            <!-- Korwil Kr Tempel -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80" alt="Korwil Kr Tempel" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Kr+Tempel'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-50 text-emeraldCustom-700 rounded">Korwil Kr Tempel</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Kang Yusuf</h4>
+                                    <p class="text-xs text-gray-500">Koordinator Kr Tempel</p>
+                                </div>
+                            </div>
+
+                            <!-- Korwil Kr Jaya -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200&auto=format&fit=crop&q=80" alt="Korwil Kr Jaya" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Kr+Jaya'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-50 text-emeraldCustom-700 rounded">Korwil Kr Jaya</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Kang Farhan</h4>
+                                    <p class="text-xs text-gray-500">Koordinator Kr Jaya</p>
+                                </div>
+                            </div>
+
+                            <!-- Korwil Curug Bogis -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&auto=format&fit=crop&q=80" alt="Korwil Curug Bogis" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Curug+Bogis'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-50 text-emeraldCustom-700 rounded">Korwil Curug Bogis</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Kang Maulana</h4>
+                                    <p class="text-xs text-gray-500">Koordinator Curug Bogis</p>
+                                </div>
+                            </div>
+
+                            <!-- Korwil Bengkok -->
+                            <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-100 flex items-center gap-4 card-hover">
+                                <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-emeraldCustom-500 shrink-0 bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80" alt="Korwil Bengkok" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/150?text=Bengkok'">
+                                </div>
+                                <div>
+                                    <span class="text-xs font-semibold px-2 py-0.5 bg-emeraldCustom-50 text-emeraldCustom-700 rounded">Korwil Bengkok</span>
+                                    <h4 class="font-bold text-gray-900 mt-1">Kang Dani</h4>
+                                    <p class="text-xs text-gray-500">Koordinator Bengkok</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= BERITA SECTION ================= -->
+        <section id="tab-berita" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-emeraldCustom-900">Kabar & Informasi</h2>
+                    <p class="text-gray-600 mt-2">Seputar kegiatan dan berita terkini IKSANCI</p>
+                    <div class="w-20 h-1 bg-goldCustom-500 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- ARTICLE 1 -->
+                    <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?w=600&auto=format&fit=crop&q=80" alt="Kajian Rutin" class="h-48 w-full object-cover">
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-semibold text-emeraldCustom-700 bg-emeraldCustom-50 px-2.5 py-1 rounded">Kegiatan</span>
+                                <h3 class="font-bold text-lg text-gray-900 mt-3 mb-2 leading-snug">Pelaksanaan Pengajian Rutin Bulan Ini Berlangsung Khidmat</h3>
+                                <p class="text-gray-600 text-xs leading-relaxed line-clamp-3">
+                                    Pengajian gabungan antar korwil yang diselenggarakan di wilayah Krajan 1 dihadiri oleh ratusan jamaah dan santri.
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-4 border-t flex justify-between items-center text-xs text-gray-500">
+                                <span><i class="fa-regular fa-calendar mr-1"></i> 12 Mei 2024</span>
+                                <span class="text-emeraldCustom-700 font-semibold cursor-pointer">Baca Selengkapnya</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ARTICLE 2 -->
+                    <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&auto=format&fit=crop&q=80" alt="Bakti Sosial" class="h-48 w-full object-cover">
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-semibold text-goldCustom-800 bg-goldCustom-100 px-2.5 py-1 rounded">Sosial</span>
+                                <h3 class="font-bold text-lg text-gray-900 mt-3 mb-2 leading-snug">IKSANCI Salurkan Bantuan Paket Sembako untuk Warga</h3>
+                                <p class="text-gray-600 text-xs leading-relaxed line-clamp-3">
+                                    Kegiatan aksi peduli sosial dalam rangka membantu masyarakat yang membutuhkan di sekitar wilayah Curug Bogis & Bengkok.
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-4 border-t flex justify-between items-center text-xs text-gray-500">
+                                <span><i class="fa-regular fa-calendar mr-1"></i> 02 Mei 2024</span>
+                                <span class="text-emeraldCustom-700 font-semibold cursor-pointer">Baca Selengkapnya</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- ARTICLE 3 -->
+                    <article class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 card-hover flex flex-col">
+                        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&auto=format&fit=crop&q=80" alt="Silaturahmi" class="h-48 w-full object-cover">
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-semibold text-emeraldCustom-700 bg-emeraldCustom-50 px-2.5 py-1 rounded">Organisasi</span>
+                                <h3 class="font-bold text-lg text-gray-900 mt-3 mb-2 leading-snug">Rapat Koordinasi Pengurus Harian dan 9 Korwil</h3>
+                                <p class="text-gray-600 text-xs leading-relaxed line-clamp-3">
+                                    Membahas percepatan program kerja semester mendatang serta optimalisasi pendataan santri secara terpadu.
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-4 border-t flex justify-between items-center text-xs text-gray-500">
+                                <span><i class="fa-regular fa-calendar mr-1"></i> 20 April 2024</span>
+                                <span class="text-emeraldCustom-700 font-semibold cursor-pointer">Baca Selengkapnya</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= GALERI SECTION ================= -->
+        <section id="tab-galeri" class="tab-content hidden py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-emeraldCustom-900">Galeri Dokumentasi</h2>
+                    <p class="text-gray-600 mt-2">Momen kebersamaan dan potret kegiatan IKSANCI</p>
+                    <div class="w-20 h-1 bg-goldCustom-500 mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="overflow-hidden rounded-xl shadow-sm border h-48 card-hover">
+                        <img src="https://images.unsplash.com/photo-1519817650390-64a93db51149?w=600&auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                    </div>
+                    <div class="overflow-hidden rounded-xl shadow-sm border h-48 card-hover">
+                        <img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=600&auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                    </div>
+                    <div class="overflow-hidden rounded-xl shadow-sm border h-48 card-hover">
+                        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                    </div>
+                    <div class="overflow-hidden rounded-xl shadow-sm border h-48 card-hover">
+                        <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&auto=format&fit=crop&q=80" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PENDAFTARAN SECTION ================= -->
+        <section id="tab-pendaftaran" class="tab-content hidden py-12">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-2xl p-8 shadow-lg border border-emeraldCustom-100">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold text-emeraldCustom-900">Formulir Pendaftaran Santri</h2>
+                        <p class="text-xs text-gray-500 mt-1">Isi data di bawah ini untuk bergabung menjadi anggota IKSANCI</p>
+                    </div>
+
+                    <form onsubmit="alert('Pendaftaran Berhasil Dikirim!'); return false;" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Nama Lengkap</label>
+                            <input type="text" required placeholder="Contoh: Ahmad Fauzi" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-emeraldCustom-600">
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">Nomor WhatsApp</label>
+                                <input type="tel" required placeholder="08123456789" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-emeraldCustom-600">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-700 mb-1">Pilih Wilayah (Korwil)</label>
+                                <select class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-emeraldCustom-600">
+                                    <option>Krajan 1</option>
+                                    <option>Krajan 2</option>
+                                    <option>Krajan 3</option>
+                                    <option>Kr Mulek</option>
+                                    <option>Kr Tengah</option>
+                                    <option>Kr Tempel</option>
+                                    <option>Kr Jaya</option>
+                                    <option>Curug Bogis</option>
+                                    <option>Bengkok</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-700 mb-1">Alamat Domisili</label>
+                            <textarea rows="3" placeholder="Alamat lengkap..." class="w-full px-4 py-2.5 rounded-lg border border-gray-300 text-sm focus:outline-none focus:border-emeraldCustom-600"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3 bg-emeraldCustom-700 text-white font-bold rounded-lg hover:bg-emeraldCustom-800 transition shadow-md">
+                            Kirim Pendaftaran
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-emeraldCustom-950 text-white border-t-4 border-goldCustom-500 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emeraldCustom-800 font-bold">
+                            <i class="fa-solid fa-mosque"></i>
+                        </div>
+                        <span class="text-xl font-bold tracking-wider">IKSANCI</span>
+                    </div>
+                    <p class="text-xs text-emeraldCustom-200 leading-relaxed">
+                        Ikatan Keluarga Santri Cigugur. Wadah pemersatu, perjuangan, dan silaturahmi santri Cigugur.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-goldCustom-400 mb-4 text-sm">Tautan Cepat</h4>
+                    <ul class="space-y-2 text-xs text-emeraldCustom-100">
+                        <li><a href="#" onclick="switchTab('beranda')" class="hover:underline">Beranda</a></li>
+                        <li><a href="#" onclick="switchTab('profil')" class="hover:underline">Profil Organisasi</a></li>
+                        <li><a href="#" onclick="switchTab('pengurus')" class="hover:underline">Struktur Pengurus</a></li>
+                        <li><a href="#" onclick="switchTab('pendaftaran')" class="hover:underline">Pendaftaran Santri</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-goldCustom-400 mb-4 text-sm">Sekretariat</h4>
+                    <p class="text-xs text-emeraldCustom-100 leading-relaxed mb-2">
+                        <i class="fa-solid fa-location-dot mr-2"></i> Cigugur, Kab. Kuningan, Jawa Barat
+                    </p>
+                    <p class="text-xs text-emeraldCustom-100">
+                        <i class="fa-solid fa-envelope mr-2"></i> info@iksanci.or.id
+                    </p>
+                </div>
+            </div>
+
+            <div class="border-t border-emeraldCustom-800 mt-8 pt-6 text-center text-xs text-emeraldCustom-300">
+                &copy; 2026 Ikatan Keluarga Santri Cigugur (IKSANCI). All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT FOR TABS & FILTERS -->
+    <script>
+        // TAB SWITCHING FUNCTIONALITY
+        function switchTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.add('hidden'));
+
+            // Show selected tab content
+            const activeContent = document.getElementById('tab-' + tabId);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+            }
+
+            // Update desktop navbar active styles
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => btn.classList.remove('active-tab-btn'));
+
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) {
+                activeNav.classList.add('active-tab-btn');
+            }
+
+            // Close mobile menu if open
+            document.getElementById('mobile-menu').classList.add('hidden');
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // PENGURUS FILTERING LOGIC
+        function filterPengurus(category) {
+            const groups = document.querySelectorAll('.pengurus-group');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            // Update button styles
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-emeraldCustom-700', 'text-white');
+                btn.classList.add('bg-white', 'text-gray-700');
+            });
+
+            const activeBtn = document.getElementById('filter-' + category);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-white', 'text-gray-700');
+                activeBtn.classList.add('bg-emeraldCustom-700', 'text-white');
+            }
+
+            // Show/Hide Groups
+            groups.forEach(group => {
+                const groupCategory = group.getAttribute('data-category');
+                if (category === 'all' || groupCategory === category) {
+                    group.classList.remove('hidden');
+                } else {
+                    group.classList.add('hidden');
+                }
+            });
+        }
+
+        // MOBILE MENU TOGGLE
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Initialize default tab
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab('beranda');
+        });
+    </script>
+</body>
+</html>
